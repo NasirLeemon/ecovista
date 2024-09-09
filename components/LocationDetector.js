@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 
 const LocationDetector = () => {
   const [loading, setLoading] = useState(false);
@@ -23,20 +23,22 @@ const LocationDetector = () => {
   }, [pathName, searchParams]);
 
   return (
-    <div className="flex flex-col justify-center items-center h-screen bg-slate-700 text-white">
-      {loading && (
-        <>
-          <Image
-            alt="Loading..."
-            src="/network.gif"
-            height={500}
-            width={500}
-            className="border rounded-md my-4"
-          />
-          <p className="text-4xl text-center">Detecting Location....</p>
-        </>
-      )}
-    </div>
+    <Suspense fallback={<div>Loading...</div>}>
+      <div className="flex flex-col justify-center items-center h-screen bg-slate-700 text-white">
+        {loading && (
+          <>
+            <Image
+              alt="Loading..."
+              src="/network.gif"
+              height={500}
+              width={500}
+              className="border rounded-md my-4"
+            />
+            <p className="text-4xl text-center">Detecting Location....</p>
+          </>
+        )}
+      </div>
+    </Suspense>
   );
 };
 
